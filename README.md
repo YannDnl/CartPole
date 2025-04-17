@@ -4,9 +4,15 @@ I have recreated the cart pole problem on a custom environment. I have implement
 
 ## Equations of motion
 
-$$M\left(r\frac{d^2\theta}{dt^2} - a\sin\theta\right) = -Mg\cos\theta$$
-$$M\left(a\cos\theta - r\left(\frac{d\theta}{dt}\right)^2\right) = -Mg\sin\theta - F$$
-$$ma = f + F\cos\theta$$
+$$M\left(r\frac{d^2\theta}{dt^2} - \frac{d^2x}{dt^2}\sin\theta\right) = -Mg\cos\theta$$
+$$M\left(\frac{d^2x}{dt^2}\cos\theta - r\left(\frac{d\theta}{dt}\right)^2\right) = -Mg\sin\theta - F$$
+$$m\frac{d^2x}{dt^2} = f + F\cos\theta$$
 
-Where $f$ is the control term.
+Where $f$ is the control term. The state of the system being described by $\theta, \frac{d\theta}{dt}, x, \frac{dx}{dt}$, we want to obtain $x$ and $\theta$ for each step.
+
+Thus we can rewrite the equation in the following way:
+
+$$r\left(\frac{d^2\theta}{dt^2} - \frac{M}{m}\sin\theta\cos\theta\left(\frac{d\theta}{dt}\right)^2\right) + g\cos\theta\left(1+\frac{M}{m}\sin^2\theta\right) - f\frac{\sin\theta}{m}\left(1 - \frac{M}{m}\cos^2\theta\right) + F\frac{M}{m^2}\cos^3\theta\sin\theta = 0$$
+
+$$m\frac{d^2x}{dt^2} = f\left(1 - \frac{M}{m}\cos\theta\right) + M\cos\theta\left(r\left(\frac{d\theta}{dt}\right)^2 - g\sin\theta\right)$$
 
