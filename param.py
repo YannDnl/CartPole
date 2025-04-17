@@ -3,7 +3,7 @@
 DT = 0.03  # time step
 R = 0.5  # length of the pole (m)
 G = 9.81  # acceleration due to gravity (m/s^2)
-m = 10  # mass of the cart (kg)
+LITTLE_M = 10  # mass of the cart (kg)
 M = 0.1  # mass of the pole (kg)
 DURATION = 600  # duration of the simulation (ticks)
 

@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import numpy as np
 import random
+import tqdm
 
 from param import DT, EPSILON, EPSILON_MIN, EPSILON_DECAY, GAMMA, BATCH_SIZE, ACTION_LIST, DQN_ACTION_SCALING
 
@@ -37,13 +38,13 @@ def epsilon_greedy_policy(model, state, epsilon):
         return torch.argmax(q_values).item()
 
 # Training loop
-def train_dqn(env, model, optimizer, memory, episodes, batch_size = BATCH_SIZE, gamma = GAMMA, epslion = EPSILON, epsilon_min = EPSILON_MIN, epsilon_decay = EPSILON_DECAY, action_list = ACTION_LIST, action_scale = DQN_ACTION_SCALING):
-    for episode in range(episodes):
+def train_dqn(env, model, optimizer, memory, episodes, batch_size = BATCH_SIZE, gamma = GAMMA, epsilon = EPSILON, epsilon_min = EPSILON_MIN, epsilon_decay = EPSILON_DECAY, action_list = ACTION_LIST, action_scale = DQN_ACTION_SCALING):
+    for episode in tqdm.trange(episodes):
         state = env.reset()
         state = preprocessing(state)
         done = False
         while not done:
-            action = epsilon_greedy_policy(state, epsilon)
+            action = epsilon_greedy_policy(model, state, epsilon)
             next_state, reward, done = env.nextState(action_list[action] * action_scale)
             next_state = preprocessing(next_state)
             memory.append((state, action, reward, next_state, done))
@@ -72,3 +73,6 @@ def train_dqn(env, model, optimizer, memory, episodes, batch_size = BATCH_SIZE, 
 
             if done:
                 epsilon = max(epsilon_min, epsilon * epsilon_decay)
+
+    torch.save(model.state_dict(), 'dqn_model.pt')
+    print("Model saved to dqn_model.pt")

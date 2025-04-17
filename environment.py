@@ -1,6 +1,6 @@
 import numpy as np
 import random as rd
-from param import R, M, m, G, DT, DURATION
+from param import R, M, LITTLE_M, G, DT, DURATION
 
 class CartPole:
     def __init__(self):
@@ -27,9 +27,9 @@ class CartPole:
     def nextState(self, action: float) -> tuple:
         x, old_x, theta, old_theta = self.getState()
 
-        new_theta = 2 * theta - old_theta + (action * np.sin(theta)/m - G * np.cos(theta)) * DT**2/R
+        new_theta = 2 * theta - old_theta + (action * np.sin(theta)/LITTLE_M - G * np.cos(theta)) * DT**2/R
         dthetadt = (new_theta - theta) / DT
-        a = (action + np.cos(theta) * (M * R * dthetadt**2 - G * M * np.sin(theta)))/m
+        a = (action + np.cos(theta) * M * (R * dthetadt**2 - G * np.sin(theta)))/LITTLE_M
         new_x = x + (x - old_x) * DT + a * DT**2/2
         new_state = (new_x, x, new_theta, theta)
 
