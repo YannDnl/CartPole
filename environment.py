@@ -1,44 +1,50 @@
 import numpy as np
-from param import R, M, m, G, DT
+import random as rd
+from param import R, M, m, G, DT, DURATION
 
-def initialState() -> tuple:
-    """
-    Returns the initial state of the cart-pole system.
-
-    Returns:
-        tuple: A tuple representing the initial state (x, old_x, theta, old_theta).
-    """
-    state = (0, 0, -np.pi/2, -np.pi/2)
-    return state, getReward(state)
-
-def nextState(state: tuple, action: float) -> tuple:
-    """
-    Given a state and an action, return the next state.
-
-    Args:
-        state(tuple): A tuple representing the current state (x, old_x, theta, old_theta).
-        action(float): A float representing the force exerted by the cart to move.
-
-    Returns:
-        tuple: A tuple representing the next state and the associated reward ((x, old_x, theta, old_theta), reward).
-    """
-    x, old_x, theta, old_theta = state
-    new_theta = 2 * theta - old_theta + (action * np.sin(theta)/m - G * np.cos(theta)) * DT**2/R
-    dthetadt = (new_theta - theta) / DT
-    a = (action + np.cos(theta) * (M * R * dthetadt**2 - G * M * np.sin(theta)))/m
-    new_x = x + (x - old_x) * DT + a * DT**2/2
-    new_state = (new_x, x, new_theta, theta)
-    return new_state, getReward(new_state)
+class CartPole:
+    def __init__(self):
+        angle = rd.random() * 2 * np.pi
+        self.state: tuple = (0, 0, angle, angle)
+        self.steps: int = 0
     
-def getReward(state: tuple) -> float:
-    """
-    Given a state, return the reward.
+    def getState(self) -> tuple:
+        return self.state
+    
+    def setState(self, state: tuple) -> None:
+        self.state = state
+    
+    def getSteps(self) -> int:
+        return self.steps
+    
+    def incrementSteps(self) -> None:
+        self.steps += 1
+    
+    def getReward(self) -> float:
+        _, _, theta, _ = self.getState()
+        return np.sin(theta)
 
-    Args:
-        state(tuple): A tuple representing the current state (x, old_x, theta, old_theta).
+    def nextState(self, action: float) -> tuple:
+        x, old_x, theta, old_theta = self.getState()
 
-    Returns:
-        float: A float representing the reward.
-    """
-    x, _, theta, _ = state
-    return np.cos(theta)
+        new_theta = 2 * theta - old_theta + (action * np.sin(theta)/m - G * np.cos(theta)) * DT**2/R
+        dthetadt = (new_theta - theta) / DT
+        a = (action + np.cos(theta) * (M * R * dthetadt**2 - G * M * np.sin(theta)))/m
+        new_x = x + (x - old_x) * DT + a * DT**2/2
+        new_state = (new_x, x, new_theta, theta)
+
+        self.setState(new_state)
+
+        if self.getSteps() > DURATION:
+            done = True
+        else:
+            done = False
+        self.incrementSteps()
+
+        return self.getState(), self.getReward(), done
+
+    def reset(self) -> tuple:
+        angle = rd.random() * 2 * np.pi
+        self.setState((0, 0, angle, angle))
+        self.steps = 0
+        return self.getState()

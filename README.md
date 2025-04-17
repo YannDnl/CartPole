@@ -25,7 +25,7 @@ $$m\frac{d^2x}{dt^2} = f + M\cos\theta\left(r\left(\frac{d\theta}{dt}\right)^2 -
 
 That we solve for $s(t+dt)$ using Euler's method.
 
-### Animation
+### Animations
 
 The Environment is animated using Pygame, the steps are computed dyanmically.
 
@@ -37,7 +37,7 @@ We use a PID corrector to set the control $f$, ie:
 
 $$f = k_p \epsilon + k_i \int_0^t \epsilon dt + k_d \frac{d\epsilon}{dt}$$
 
-Where $\epsilon \in [-\pi, \pi[$ and $\epsilon \mod \frac{\pi}{2} - \theta [2\pi]$ or $\epsilon = \cos\theta = \sin\left(\frac{\pi}{2} - \theta\right)$
+Where $\epsilon \in [-\pi, \pi[$ and $\epsilon \equiv \frac{\pi}{2} - \theta [2\pi]$.
 
 Works well.
 

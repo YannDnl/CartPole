@@ -2,8 +2,8 @@ import pygame
 import numpy as np
 import sys
 
-from param import POLE_COLOR, CART_COLOR, SCREEN_COLOR, BUBBLE_COLOR, RAIL_COLOR, SCREEN_HEIGHT, SCREEN_WIDTH, CART_HEIGHT, CART_WIDTH, POLE_LENGTH, FPS, DURATION, X_SCALE
-from environment import initialState, nextState
+from param import POLE_COLOR, CART_COLOR, SCREEN_COLOR, BUBBLE_COLOR, RAIL_COLOR, SCREEN_HEIGHT, SCREEN_WIDTH, CART_HEIGHT, CART_WIDTH, POLE_LENGTH, FPS, X_SCALE
+from environment import CartPole
 from agent import getAction
 
 pygame.init()
@@ -50,7 +50,7 @@ def draw_cart_pole(x, theta):
     # Draw the pole
     pygame.draw.line(screen, POLE_COLOR, (pole_start_x, pole_start_y), (pole_start_x + pole_end_x, pole_start_y + pole_end_y), 5)
 
-state, reward = initialState()
+env = CartPole()
 memory = (0, 0)  # old_reward, reward_integral
 
 clock = pygame.time.Clock()
@@ -61,14 +61,13 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    if frame < DURATION:
-        action, memory = getAction(state, memory)
-        state, reward = nextState(state, action)
+    action, memory = getAction(env.getState(), memory)
+    state, _, done = env.nextState(action)
 
-        draw_cart_pole(state[0], state[2])
-        frame += 1
-    else:
-        running = False
+    draw_cart_pole(state[0], state[2])
+    frame += 1
+
+    running = not(done)
 
     pygame.display.flip()
     clock.tick(FPS)  # Limit the frame rate to 30 FPS
