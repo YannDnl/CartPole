@@ -2,7 +2,7 @@
 
 I have recreated the cart pole problem on a custom environment. I have implemented two methods to solve it. Control engineering through a PID corrector and a reinforcement learning agent (in progress).
 
-The equation of motion are:
+## Equations of motion
 
 $$M\left(r\frac{d^2\theta}{dt^2} - a\sin\theta\right) = -Mg\cos\theta$$
 $$M\left(a\cos\theta - r\left(\frac{d\theta}{dt}\right)^2\right) = -Mg\sin\theta - F$$
