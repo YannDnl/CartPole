@@ -8,7 +8,7 @@ def initialState() -> tuple:
     Returns:
         tuple: A tuple representing the initial state (x, old_x, theta, old_theta).
     """
-    state = (0, 0, 1, 1)
+    state = (0, 0, -np.pi/2, -np.pi/2)
     return state, getReward(state)
 
 def nextState(state: tuple, action: float) -> tuple:

@@ -17,7 +17,7 @@ $$r\left(\frac{d^2\theta}{dt^2} - \frac{M}{m}\sin\theta\cos\theta\left(\frac{d\t
 
 $$m\frac{d^2x}{dt^2} = f\left(1 - \frac{M}{m}\cos^2\theta\right) + M\cos\theta\left(r\left(\frac{d\theta}{dt}\right)^2 - g\sin\theta\right)$$
 
-Now assuming $m \gg M,
+Now assuming $m \gg M$,
 
 $$r\frac{d^2\theta}{dt^2} + g\cos\theta - f\frac{\sin\theta}{m} = 0$$
 
@@ -37,8 +37,10 @@ We use a PID corrector to set the control $f$, ie:
 
 $$f = k_p \epsilon + k_i \int_0^t \epsilon dt + k_d \frac{d\epsilon}{dt}$$
 
-Where $\epsilon = \frac{\pi}{2} - \theta$ or $\epsilon = \cos\theta = \sin\left(\frac{\pi}{2} - \theta\right)$
+Where $\epsilon \in [-\pi, \pi[$ and $\epsilon \mod \frac{\pi}{2} - \theta [2\pi]$ or $\epsilon = \cos\theta = \sin\left(\frac{\pi}{2} - \theta\right)$
+
+Works well.
 
 ### Reinforcement learning
 
-I am implementing a DQN algorithm.
+I am implementing a DQN algorithm to control the system.

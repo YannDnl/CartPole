@@ -4,12 +4,17 @@ G = 9.81  # acceleration due to gravity (m/s^2)
 m = 10  # mass of the cart (kg)
 M = 0.1  # mass of the pole (kg)
 
-X_SCALE = 10000  # scale factor for x position
+X_SCALE = 200  # scale factor for x position
 
 PROPORTIONAL_CORRECTION = 200
-INTEGRAL_CORRECTION = 10
-DERIVATIVE_CORRECTION = 30
+INTEGRAL_CORRECTION = 20
+DERIVATIVE_CORRECTION = 80
 
+SCREEN_COLOR = (0, 0, 0)  # black
+CART_COLOR = (150, 0, 255)  # blue
+POLE_COLOR = (150, 150, 255)  # black
+BUBBLE_COLOR = (50, 50, 50)  # grey
+RAIL_COLOR = (255, 255, 255)  # white
 SCREEN_WIDTH = 800  # width of the screen (pixels)
 SCREEN_HEIGHT = 400  # height of the screen (pixels)
 CART_WIDTH = 100  # width of the cart (pixels)

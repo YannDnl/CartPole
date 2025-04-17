@@ -25,7 +25,7 @@ def getActionControlPID(state: float, memory: tuple) -> tuple:
     Returns:
         A float representing the action.
     """
-    reward = np.cos(state[2])
+    reward = (np.pi/2 - state[2] + np.pi/2) % (2 * np.pi) - np.pi/2 #Maintaining error periodicity is crucial
     old_reward, reward_integral = memory
     reward_integral += reward * DT
     reward_derivative = (reward - old_reward) / DT
