@@ -32,7 +32,7 @@ def epsilon_greedy_policy(model, state, epsilon):
     if random.random() < epsilon:
         return random.choice([0, 1, 2])
     else:
-        state = torch.FloatTensor(state).unsqueeze(0)
+        state = torch.FloatTensor(state).unsqueeze(0).cuda()
         with torch.no_grad():
             q_values = model(state)
         return torch.argmax(q_values).item()
@@ -53,11 +53,11 @@ def train_dqn(env, model, optimizer, memory, episodes, batch_size = BATCH_SIZE, 
             if len(memory) > batch_size:
                 batch = random.sample(memory, batch_size)
                 for s, a, r, s_next, d in batch:
-                    s = torch.FloatTensor(s).unsqueeze(0)
-                    s_next = torch.FloatTensor(s_next).unsqueeze(0)
-                    r = torch.FloatTensor([r])
-                    a = torch.LongTensor([a])
-                    d = torch.FloatTensor([d])
+                    s = torch.FloatTensor(s).unsqueeze(0).cuda()
+                    s_next = torch.FloatTensor(s_next).unsqueeze(0).cuda()
+                    r = torch.FloatTensor([r]).cuda()
+                    a = torch.LongTensor([a]).cuda()
+                    d = torch.FloatTensor([d]).cuda()
 
                     q_values = model(s)
                     q_value = q_values.gather(1, a.unsqueeze(1)).squeeze(1)

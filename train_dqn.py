@@ -8,7 +8,7 @@ from dqn_model import DQN, train_dqn
 from param import STATE_SIZE, ACTION_SIZE, LEARNING_RATE, MEMORY_SIZE, EPISODES
 
 # Initialize the model, optimizer, and replay buffer
-model = DQN(STATE_SIZE, ACTION_SIZE)
+model = DQN(STATE_SIZE, ACTION_SIZE).cuda()
 optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
 memory = deque(maxlen=MEMORY_SIZE)
 

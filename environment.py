@@ -1,5 +1,7 @@
-import numpy as np
 import random as rd
+
+import numpy as np
+
 from param import R, M, LITTLE_M, G, DT, DURATION
 
 class CartPole:
