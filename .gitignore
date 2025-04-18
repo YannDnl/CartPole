@@ -1,1 +1,3 @@
-.vscode\sftp.json
+.vscode\
+__pycache__\
+ssh_connexion.txt
