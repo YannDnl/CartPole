@@ -4,7 +4,8 @@ import random
 from collections import deque
 
 from environment import CartPole
-from dqn_model import DQN, train_dqn
+from dqn_model import DQN
+from dqn_training import train_dqn
 from param import STATE_SIZE, ACTION_SIZE, LEARNING_RATE, MEMORY_SIZE, EPISODES
 
 # Initialize the model, optimizer, and replay buffer

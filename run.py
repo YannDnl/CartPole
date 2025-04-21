@@ -2,9 +2,9 @@ import pygame
 import numpy as np
 import sys
 
-from param import POLE_COLOR, CART_COLOR, SCREEN_COLOR, BUBBLE_COLOR, RAIL_COLOR, SCREEN_HEIGHT, SCREEN_WIDTH, CART_HEIGHT, CART_WIDTH, POLE_LENGTH, FPS, X_SCALE
+from param import AGENT, POLE_COLOR, CART_COLOR, SCREEN_COLOR, BUBBLE_COLOR, RAIL_COLOR, SCREEN_HEIGHT, SCREEN_WIDTH, CART_HEIGHT, CART_WIDTH, POLE_LENGTH, FPS, X_SCALE
 from environment import CartPole
-from agent import getAction
+import agent
 
 pygame.init()
 
@@ -21,6 +21,7 @@ def draw_cart_pole(x, theta):
     screen.fill(SCREEN_COLOR)
 
     cart_x = screen_width // 2 + int(x * X_SCALE)  # Scale the position
+    cart_x = cart_x%screen_width  # Ensure the cart stays within the screen width
 
     pole_start_x = cart_x
     pole_start_y = 2 * screen_height//3 - cart_height // 2
@@ -50,8 +51,15 @@ def draw_cart_pole(x, theta):
     # Draw the pole
     pygame.draw.line(screen, POLE_COLOR, (pole_start_x, pole_start_y), (pole_start_x + pole_end_x, pole_start_y + pole_end_y), 5)
 
+
+
 env = CartPole()
-memory = (0, 0)  # old_reward, reward_integral
+if AGENT == "PID":
+    control_agent = agent.PIDAgent()
+elif AGENT == "RL":
+    control_agent = agent.RLAgent()
+else:
+    raise ValueError("Only 'PID' or 'RL' agent defined")
 
 clock = pygame.time.Clock()
 frame = 0
@@ -61,7 +69,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    action, memory = getAction(env.getState(), memory)
+    action = control_agent.getAction(env.getState())
     state, _, done = env.nextState(action)
 
     draw_cart_pole(state[0], state[2])
